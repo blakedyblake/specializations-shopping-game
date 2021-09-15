@@ -1,7 +1,16 @@
 let gameComplete = false;
 // Define the three constants here
-
 // Define the player object here
+class Player{
+    constructor(name = 'unknown', items = 0, score = 0){
+        this.items = items;
+        this.score = score;
+        this.name = name;
+    }
+    getCurrentScore(){return this.score;}
+    addPoints(points){this.score += points}
+    deductPoints(points){this.score -= points}
+}
 
 // Define the Product class - write the Constructor function for Product class here
 
@@ -305,7 +314,7 @@ function init(data) {
         console.log(`Congratulations!!! You became ${finalStatus}!`.blue);
         rateAndExit();
     };
-
+///////////////////*******************************************************/////////////////////////////////////////////// */
     // Uncomment this function once you fully implement the game to be able to run it
     // (function setGameCompleteFlag(){
     //     gameComplete = true;
@@ -320,6 +329,7 @@ function init(data) {
 
     ///////////////////////////////////////////////////////////////
     const readline = require("readline");
+const { threadId } = require("worker_threads");
     require('colors');
     const rl = readline.createInterface({
         input: process.stdin,
