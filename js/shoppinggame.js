@@ -220,12 +220,17 @@ function loadMasterData() {
 }
 
 // Complete this function
+//HOOOOOOOOOOOOOOOOOOOW DOES THIS WORK????
 const findProductById = (id) => {
-    
+    return (product)=>{//My brain is literally fried 
+        return product.id === id ? true : false
+    }
 };
 
 // Complete this function
-const generateProductId = () => {};
+const generateProductId = () => {
+    return Math.floor(Math.random()*20 + 1)
+};
 
 
 const getProduct = (prodList, pId) => {
@@ -234,7 +239,9 @@ const getProduct = (prodList, pId) => {
 
 
 // Complete this function
-const calculateBill = (prod, tBill) => {};
+const calculateBill = (prod, tBill) => {
+    return tBill + prod.price
+};
 
 const findPointsToBill = (roundedTotal) => {
     if (roundedTotal > 10 && roundedTotal <= 100) {
