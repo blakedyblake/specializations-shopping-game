@@ -1,8 +1,8 @@
 let gameComplete = false;
 // Define the three constants here
-let name = 'unknown'
+const name = 'unknown'
 const score = 0;
-let items = 0;
+const items = 0;
 //Durp:: Defining them as constants makes it impossible to alter is there a way to make the spread operator so that it's not pointing to the pointer
 // Define the player object here
 
@@ -33,21 +33,23 @@ function Product(id,name, price,expiryDate){
 
 // Complete the dateDiff function
 const dateDiff = (date1, date2) => {
-    let diff= date1.getTime() - date2.getTime()
+    let diff= new Date(date1).getTime() - date2.getTime()
     diff = diff < 0 ?-diff : diff
     diff /=(1000*60*60 *24)
-    diff = +diff.toFixed(2)
+    diff = +diff
     return diff;
 };
 
 
 
 // Here, use Object.defineProperty to create property - daysToExpire
-Object.defineProperty(Product,'daysToExpire',{
-    get: function(){
+Object.defineProperty(Product.prototype, 'daysToExpire',{
+    get: function ( ){
         return dateDiff(this.expiryDate, new Date())
     }
 })
+
+
 // Add method getDetails to Product here
 Product.prototype.getDetails = function(){
     return `Product Name: ${this.name} , Product Price: ${this.price}`
@@ -69,11 +71,12 @@ class Rating {
     constructor(){
         this.rate = ""
     }
-    rating(num){
+    set rating(num){
         let str = (num > 1 && num <=4) ? "OK": (num >=5 && num <=7)? "GOOD" : (num > 7) ? "EXCEPTIONAL" : "BAD"
         this.rate = str;
     }
 }
+
 // Complete the loadProducts function
 const loadProducts = (map, prodId) => {
     let a = new Array();
@@ -374,6 +377,7 @@ function init(data) {
 
 
 
+const { get } = require("http");
     ///////////////////////////////////////////////////////////////
     const readline = require("readline");
 const { threadId } = require("worker_threads");
