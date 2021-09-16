@@ -77,7 +77,6 @@ class Rating {
     }
 }
 
-console.log(Object.keys(new Product))
 // Complete the loadProducts function
 const loadProducts = (map, prodId) => {
     let a = new Array();
@@ -263,12 +262,21 @@ const findPointsToBill = (roundedTotal) => {
 
 
 // Complete this function
-const findPointsForExpDate = (prod) => {};
+const findPointsForExpDate = (prod) => {
+    return (prod.daysToExpire < 30) ? 10 :0
+};
 
 
 const calculatePoints = (prod, tBill) => {
     let pointsToBill = findPointsToBill(Math.round(tBill));
     let pointsForExpDate = findPointsForExpDate(prod);
+
+    let sum = pointsToBill + pointsForExpDate
+    player.addPoints(sum)
+    if(prod instanceof MagicProduct){
+        if(prod.isBonus) player.addPoints( prod.points)
+        else player.deductPoints(prod.points)
+    }
 };
 
 // Complete this function
