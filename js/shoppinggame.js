@@ -273,10 +273,10 @@ const calculatePoints = (prod, tBill) => {
     let pointsToBill = findPointsToBill(Math.round(tBill));
     let pointsForExpDate = findPointsForExpDate(prod);
     
-    player.addPoints(pointsToBill +pointsForExpDate)
-    let isMagic= (prod instanceof MagicProduct)
+    player.score = player.score + pointsToBill + pointsForExpDate
+    
     //Magic bonus if true add else subtract
-    if(isMagic){
+    if(prod instanceof MagicProduct){
         if(prod.isBonus) {
             player.addPoints(prod.points)
         }
