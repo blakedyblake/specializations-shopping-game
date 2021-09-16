@@ -22,7 +22,6 @@ const player = {
 
 }
 
-
 // Define the Product class - write the Constructor function for Product class here
 function Product(id,name, price,expiryDate){
     this.id =id
@@ -66,6 +65,7 @@ function MagicProduct(id, name, price, expiryDate, points,isBonus){
 // Establish inheritance between Product() & MagicProduct() here
 MagicProduct.prototype = Object.create(Product.prototype)
 MagicProduct.prototype.constructor = MagicProduct;
+
 // Define Rating class here
 class Rating {
     constructor(){
@@ -76,6 +76,7 @@ class Rating {
         this.rate = str;
     }
 }
+
 
 // Complete the loadProducts function
 const loadProducts = (map, prodId) => {
@@ -272,13 +273,16 @@ const calculatePoints = (prod, tBill) => {
     let pointsToBill = findPointsToBill(Math.round(tBill));
     let pointsForExpDate = findPointsForExpDate(prod);
     
-    //Update the players score based on points
-    player.addPoints(pointsToBill + pointsForExpDate)
-    
+    player.addPoints(pointsToBill +pointsForExpDate)
+    let isMagic= (prod instanceof MagicProduct)
     //Magic bonus if true add else subtract
-    if(prod instanceof MagicProduct){
-        if(prod.isBonus) player.addPoints( prod.points)
-        else player.deductPoints(prod.points)
+    if(isMagic){
+        if(prod.isBonus) {
+            player.addPoints(prod.points)
+        }
+        else {
+            player.deductPoints(prod.points)
+        }
     } 
 };
 
@@ -304,12 +308,10 @@ function init(data) {
     }
 }
 //isNaN isn't working on my JS
-const isN = (option) =>{
-    return ((typeof option)!=='number')
-}
+
     function start(data) {
         rl.question("What would you like to do? <Enter option number>: ", function (option) {
-            if (option == "" || isN(option)) {
+            if (option == "" || isNaN(option)) {
                 console.log("Invalid option! Enter 1 or 2".red);
                 start(data);
             } else {
@@ -322,8 +324,9 @@ const isN = (option) =>{
     const shop = (prodList, tBill, lastProd) => {
         let totalBill = tBill;
         const prId = generateProductId();
-        let product = (Object.is(lastProd, undefined)) ? lastProd : getProduct(prodList,prId); // Assign the value of product here
+        let product = (!Object.is(lastProd, undefined)) ? lastProd : getProduct(prodList,prId); // Assign the value of product here
         let productDetails = product.getDetails(); // Assign the value of productDetails here
+        //this thows an error in the real code
 
         rl.question(`You can buy - ${productDetails}.\n Do you want to buy this item <Y/N>? `.yellow, function (option) {
             const regexYes = new RegExp('y', "i"); // Use the RegExp built-in object type here as appropriate
@@ -370,12 +373,12 @@ const isN = (option) =>{
         // Create a new instance of Rating and assign it to a variable named playerRating here
         let playerRating = new Rating()
         rl.question("How would you rate this game on a scale of 1-10 (1 being the lowest)?:", function (r) {
-            if (r == "" || Object.is(r, NaN) || r === 0 || r > 10) {
+            if (r == "" ||isNaN(r)|| r === 0 || r > 10) {
                 console.log("Invalid rating! Please nter a number from 1 - 10".red);
                 rateAndExit();
             } else {
                 // Call rating setter method of playerRating to set user entered rate value here
-                playerRating.rating(r);
+                playerRating.rating = r;
                 // Call Object.assign() method here to populate target
                 const target = Object.assign({},player, playerRating)
                 console.log(`${target.name} you rated this game as ${target.rate}`.green);
@@ -400,9 +403,9 @@ const isN = (option) =>{
     };
 ///////////////////*******************************************************/////////////////////////////////////////////// */
     // Uncomment this function once you fully implement the game to be able to run it
-    // (function setGameCompleteFlag(){
-    //     gameComplete = true;
-    // })();
+    (function setGameCompleteFlag(){
+        gameComplete = true;
+    })();
 
     function main() {
         let products = loadMasterData();
